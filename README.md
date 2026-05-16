@@ -29,3 +29,8 @@ HTTP: `http://localhost:8087`
 ## License
 
 [MIT](LICENSE)
+
+## Notes
+
+Not a full XSD-validated payments stack; use for learning and demos.
+
