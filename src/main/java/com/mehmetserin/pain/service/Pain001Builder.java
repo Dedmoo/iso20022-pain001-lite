@@ -104,6 +104,25 @@ public class Pain001Builder {
                 || party.bic() == null || party.bic().isBlank()) {
             throw new IllegalArgumentException(label + " name, IBAN and BIC are required.");
         }
+        if (!mod97Valid(normalize(party.iban()))) {
+            throw new IllegalArgumentException(label + " IBAN failed mod-97 check.");
+        }
+    }
+
+    private static boolean mod97Valid(String iban) {
+        if (iban.length() < 15 || iban.length() > 34 || !iban.matches("[A-Z]{2}[0-9]{2}[A-Z0-9]+")) {
+            return false;
+        }
+        String rearranged = iban.substring(4) + iban.substring(0, 4);
+        StringBuilder numeric = new StringBuilder();
+        for (char c : rearranged.toCharArray()) {
+            if (Character.isDigit(c)) {
+                numeric.append(c);
+            } else {
+                numeric.append(c - 'A' + 10);
+            }
+        }
+        return new java.math.BigInteger(numeric.toString()).mod(java.math.BigInteger.valueOf(97)).intValue() == 1;
     }
 
     private static String normalize(String value) {

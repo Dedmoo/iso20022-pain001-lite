@@ -13,8 +13,35 @@ sequenceDiagram
     participant B as Pain001Builder
     C->>API: POST /api/pain001/build
     API->>B: parties + amounts + remittance
+    B->>B: mod-97 IBAN check
     B-->>API: messageId + XML
     API-->>C: JSON (or /build.xml)
+```
+
+## API
+
+| Method | Path | Produces |
+|--------|------|----------|
+| `POST` | `/api/pain001/build` | JSON with `messageId`, `executionDate`, `transfers`, `xml` |
+| `POST` | `/api/pain001/build.xml` | raw XML |
+| `GET` | `/api/pain001/health` | health |
+
+### Example request
+
+```bash
+curl -s -X POST http://localhost:8087/api/pain001/build \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"executionDate\": \"2026-05-10\",
+    \"transfers\": [{
+      \"endToEndId\": \"E2E-1\",
+      \"amount\": 1250.50,
+      \"currency\": \"EUR\",
+      \"debtor\": {\"name\": \"Alice GmbH\", \"iban\": \"DE89370400440532013000\", \"bic\": \"COBADEFFXXX\"},
+      \"creditor\": {\"name\": \"Bob Ltd\", \"iban\": \"GB82WEST12345698765432\", \"bic\": \"WESTGB22XXX\"},
+      \"remittance\": \"Invoice 42\"
+    }]
+  }"
 ```
 
 ## Quick start
@@ -26,11 +53,10 @@ sequenceDiagram
 
 HTTP: `http://localhost:8087`
 
+## Notes
+
+Not a full XSD-validated payments stack; use for learning and demos. Debtor/creditor IBANs must pass mod-97.
+
 ## License
 
 [MIT](LICENSE)
-
-## Notes
-
-Not a full XSD-validated payments stack; use for learning and demos.
-

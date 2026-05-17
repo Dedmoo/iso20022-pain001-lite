@@ -23,7 +23,7 @@ class Pain001BuilderTest {
                         new BigDecimal("1250.50"),
                         "EUR",
                         new Party("Alice GmbH", "DE89370400440532013000", "COBADEFFXXX"),
-                        new Party("Bob SA", "FR1420041010050500013M02606", "BNPAFRPPXXX"),
+                        new Party("Bob SA", "GB82WEST12345698765432", "WESTGB22XXX"),
                         "Invoice 42")
         ));
         assertTrue(doc.xml().contains("pain.001.001.03"));
