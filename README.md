@@ -113,3 +113,5 @@ Not a full XSD-validated payments stack; use for learning and demos. Debtor/cred
 ## License
 
 [MIT](LICENSE)
+
+<!-- docs: maintenance pass 2026-06-14 -->
