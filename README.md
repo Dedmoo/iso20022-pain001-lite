@@ -44,6 +44,59 @@ curl -s -X POST http://localhost:8087/api/pain001/build \
   }"
 ```
 
+## Domain model
+
+Class-level view of the main types and how they relate (fields, operations and dependencies).
+
+```mermaid
+classDiagram
+    direction TB
+    class PainController {
+        <<controller>>
+        -builder: Pain001Builder
+        +build(request) PainDocument
+        +buildXml(request) String
+    }
+    class Pain001Builder {
+        <<service>>
+        +build(executionDate, transfers) PainDocument
+    }
+    class BuildRequest {
+        <<record>>
+        +executionDate: LocalDate
+        +transfers: List~CreditTransfer~
+    }
+    class Party {
+        <<record>>
+        +name: String
+        +iban: String
+        +bic: String
+    }
+    class CreditTransfer {
+        <<record>>
+        +endToEndId: String
+        +amount: BigDecimal
+        +currency: String
+        +debtor: Party
+        +creditor: Party
+        +remittance: String
+    }
+    class PainDocument {
+        <<record>>
+        +messageId: String
+        +executionDate: LocalDate
+        +transfers: List~CreditTransfer~
+        +xml: String
+    }
+    PainController --> Pain001Builder
+    PainController ..> BuildRequest
+    BuildRequest o-- CreditTransfer
+    CreditTransfer --> Party : debtor
+    CreditTransfer --> Party : creditor
+    Pain001Builder ..> PainDocument
+    PainDocument o-- CreditTransfer
+```
+
 ## Quick start
 
 ```bash
