@@ -4,6 +4,19 @@ Builds a **simplified** ISO 20022 Customer Credit Transfer Initiation (`pain.001
 
 Inspired by the pain.001 generation idea in projects such as [bank4j](https://github.com/inisos/bank4j) (MIT). This code is an independent lite builder for learning and demos, not a full XSD-validated payments stack.
 
+## Scope (honest)
+
+This is a learning / portfolio builder, not a production payments stack.
+
+| Capability | Status |
+|------------|--------|
+| Simplified pain.001.001.03-style XML generation | Implemented |
+| Debtor/creditor IBAN mod-97 check | Implemented |
+| Full XSD schema validation | Not included |
+| Other pain/pacs message types, batch settlement | Not included |
+| Bank / payment-rail connectivity | Not included |
+| Persistence of generated messages | Not included (stateless builder) |
+
 ## Architecture
 
 ```mermaid
